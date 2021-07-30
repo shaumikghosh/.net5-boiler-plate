@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> UserManager
+@using Microsoft.EntityFrameworkCore;
+@{
+    var home = "";
+    var popular_polls = "";
+    var top_poll_creator = "";
+    var login = "";
+    var help = "";
+
+    var url = ViewContext.HttpContext.Request.Path;
+    if (url == "/")
+    {
+        home = "menu-active";
+    }
+    else if (url == "/popular-polls")
+    {
+        popular_polls = "menu-active";
+    }
+    else if (url == "/top-poll-creators")
+    {
+        top_poll_creator = "menu-active";
+    }
+    else if (url == "/user/login")
+    {
+        login = "menu-active";
+    }
+    else
+    {
+        help = "menu-active";
+    }
+
+    var user = await UserManager.GetUserAsync(User);
+    var info = user;
+    if (User.Identity.IsAuthenticated)
+    {
+        info = await UserManager.Users.Where(x => x.Id == user.Id).Include(x => x.AdditionalInfos).FirstOrDefaultAsync();
+    }
+
+}
+    <header id="header">
+        <div id="logo" class="pull-left">
+            <h1><a href="@Url.ActionLink("Index", "Home")" class="scrollto"><img src="~/clientside/img/logo.jpeg" alt="" title="" width="200" height="80" style="margin-top:-23px" /></a></h1>
+        </div>
+        <div class="container">
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <li class="@(home)">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="@(popular_polls)">@Html.ActionLink("Popular Polls", "PopularPolls", "Poll")</li>
+                    <li class="@(top_poll_creator)">@Html.ActionLink("Top Poll Creators", "TopPollCreators", "Poll")</li>
+                    <li class="@(help)">@Html.ActionLink("Help ?", "NeedHelp", "Help")</li>
+                </ul>
+            </nav>
+            <nav id="nav-menu-container-2">
+                <ul class="nav-menu">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="@(login)">@Html.ActionLink("Login", "UserLogin", "Login")</li>
+                    }
+                    else
+                    {
+                        <li id="ProfileMenu">
+                            @if (info.AdditionalInfos.ProfileImage == null)
+                            {
+                                <img src="~/clientside/img/demo-user.png" alt="" width="45" height="45" style="border-radius:100%" />
+                            }
+                            else
+                            {
+                                <img src="~/clientside/img/profile/@info.AdditionalInfos.ProfileImage" alt="" width="45" height="45" style="border-radius:100%" />
+                            }
+                            <span>
+                                @if (user.FullName() != null)
+                                {@Html.ActionLink("Profile / " + user.FullName(), "Profile", "Profile", new { area = "User" }, new { @title = "Go to Profile" })}
+                            else
+                            {@Html.ActionLink("Username", "Profile", "Profile", new { area = "User" }, new { @title = "Go to Profile" })}
+                            </span>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>

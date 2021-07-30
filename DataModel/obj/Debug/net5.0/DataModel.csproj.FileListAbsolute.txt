@@ -1,0 +1,16 @@
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\bin\Debug\net5.0\DataModel.deps.json
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\bin\Debug\net5.0\DataModel.dll
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\bin\Debug\net5.0\ref\DataModel.dll
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\bin\Debug\net5.0\DataModel.pdb
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.csproj.AssemblyReference.cache
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.GeneratedMSBuildEditorConfig.editorconfig
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.AssemblyInfoInputs.cache
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.AssemblyInfo.cs
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.csproj.CoreCompileInputs.cache
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\staticwebassets\DataModel.StaticWebAssets.Manifest.cache
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\staticwebassets\DataModel.StaticWebAssets.xml
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\scopedcss\bundle\DataModel.styles.css
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.RazorTargetAssemblyInfo.cache
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.dll
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\ref\DataModel.dll
+F:\.NET5 Boiler Plate\Template\WebProject\DataModel\obj\Debug\net5.0\DataModel.pdb

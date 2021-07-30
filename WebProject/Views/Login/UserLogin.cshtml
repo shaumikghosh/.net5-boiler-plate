@@ -1,0 +1,97 @@
+﻿@model LoginModel
+
+@{
+    ViewData["Title"] = "User Login";
+    Layout = "~/Views/Shared/_WebLayout.cshtml";
+}
+
+<div class="login-area" style="width:500px;margin: 3% auto">
+    <div class="card">
+        <div class="card-header" style="border-top:3px solid">
+            <h4 class="text-center font-weight-bold"><i class="fas fa-sign-in-alt"></i> Member Login Panel</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("UserLogin", "Login", new { url = ViewContext.HttpContext.Request.Query["url"] }, FormMethod.Post))
+            {
+                @Html.ValidationSummary(true)
+                <div>
+                    <i class="fas fa-envelope"></i> @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="mt-3">
+                    <i class="fas fa-key"></i> @Html.LabelFor(model => model.Password, new { @class = "form-label" })
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="mt-3">
+                    @Html.CheckBoxFor(model => model.RememberMe)
+                    @Html.LabelFor(model => model.RememberMe, new { @class = "form-label" })
+                </div>
+                <button type="submit" class="btn btn-info btn-block mt-3"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <div class="mt-3">
+                    @Html.ActionLink("Have not account yet?", "Signup", "Signup", null, new { @class = "float-left" })
+                    @Html.ActionLink("Forgot password?", "ForgetPassword", "ForgetPassword", null, new { @class = "float-right" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section SweetAlert {
+    @if (TempData["InvalidCredentialError"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["InvalidCredentialError"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+    @if (TempData["UserDeactivated"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["UserDeactivated"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+    @if (TempData["RegistrationCompleteMessage"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["RegistrationCompleteMessage"]",
+                icon: "success",
+                button: "Ok!",
+            });
+        </script>
+    }
+    @if (TempData["PasswordResetSuccess"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["PasswordResetSuccess"]",
+                icon: "success",
+                button: "Ok!",
+            });
+        </script>
+    }
+    @if (TempData["AccountDeactivated"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["AccountDeactivated"]",
+                icon: "success",
+                button: "Ok!",
+            });
+        </script>
+    }
+}

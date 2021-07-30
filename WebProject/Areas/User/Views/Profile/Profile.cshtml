@@ -1,0 +1,105 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> UserManager;
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_WebLayout.cshtml";
+
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<style>
+    .custom-card-haeader {
+        height: 50px !important;
+        border-top: 3px solid;
+    }
+
+    .custom-card {
+        width: 1000px !important;
+        margin: auto;
+    }
+
+    ul {
+        padding-left: 0px;
+    }
+
+        ul li {
+            list-style: none;
+            display: inline;
+        }
+</style>
+
+@if (user.EmailConfirmed == true)
+{
+    <section id="about">
+        <div class="container">
+            <div class="card custom-card">
+                <div class="custom-card-haeader card-outline" style="border-top:3px solid;line-height:0px;display:flex;justify-content:space-between; padding:10px">
+                    <div>
+                        <a href="@Url.ActionLink("UserSettings", "Settings", new { area = "User" })" class="btn btn-dark btn-sm"><i class="fas fa-cogs"></i> Settings</a>
+
+                        <a href="@Url.ActionLink("CreatePoll", "CreatePoll", new {area="User"})" class="btn btn-warning btn-sm"><i class="fas fa-plus-circle"></i> Create Poll</a>
+                    </div>
+                    <div>
+                        <a href="@Url.ActionLink("Logout", "Logout")" class="btn btn-danger btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Total Votes</th>
+                                <th scope="col">Deadline</th>
+                                <th scope="col">Privacy</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>What is the best programming language?</th>
+                                <td>Content Poll</td>
+                                <td>100 <i class="fas fa-users"></i></td>
+                                <td>No Deadline</td>
+                                <td><span class="btn btn-sm btn-success"><i class="fas fa-globe-europe"></i> Public</span></td>
+                                <td style="cursor:pointer;position:relative">
+                                    <a href="#"><i class="fas fa-edit text-warning" style="font-size:25px"></i></a>
+                                    <a href="#"><i class="fas fa-minus-circle text-danger" style="font-size:25px"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example" class="fa-pull-right">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section id="about">
+        <div class="container">
+            <div class="card" style="padding:20px">
+                <span><i class="fas fa-exclamation-triangle text-danger"></i> &nbsp;&nbsp;An E-Mail verfication mail has been sent to you. Please check and verify mail before using our services. Thanks</span>
+            </div>
+        </div>
+    </section>
+}

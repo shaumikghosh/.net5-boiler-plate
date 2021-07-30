@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"]</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <meta content="Author" name="WebThemez">
+    <!-- Favicons -->
+    <link href="~/clientside/img/logo.jpeg" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800|Montserrat:300,400,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="~/clientside/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="~/clientside/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/clientside/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/clientside/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="~/clientside/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/clientside/lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/clientside/css/font-icon.css">
+    <link href="~/clientside/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="~/clientside/css/style.css" rel="stylesheet">
+    <link href="~/clientside/css/media.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/clientside/fontawesome/css/all.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body id="body">
+
+    <partial name="Partials/_Header" />
+
+    @if (ViewContext.HttpContext.Request.Path == "/")
+    {
+        <section id="hero" class="clearfix">
+            <div class="container">
+
+                <div class="hero-banner">
+                    <img width="100%" src="~/clientside/img/intro-carousel/conn.gif" alt="">
+                </div>
+
+                <div class="hero-content">
+                    <h2>Let's get vote for<br><span> your polls free</span></h2>
+                </div>
+
+            </div>
+        </section>
+    }
+
+    <main id="main">
+        @RenderBody()
+    </main>
+
+    <partial name="Partials/_Footer" />
+
+    <!-- JavaScript  -->
+    <script src="~/clientside/lib/jquery/jquery.min.js"></script>
+    <script src="~/clientside/lib/jquery/jquery-migrate.min.js"></script>
+    <script src="~/clientside/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/clientside/lib/easing/easing.min.js"></script>
+    <script src="~/clientside/lib/superfish/hoverIntent.js"></script>
+    <script src="~/clientside/lib/superfish/superfish.min.js"></script>
+    <script src="~/clientside/lib/wow/wow.min.js"></script>
+    <script src="~/clientside/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/clientside/lib/magnific-popup/magnific-popup.min.js"></script>
+    <script src="~/clientside/lib/sticky/sticky.js"></script>
+    <script src="~/clientside/js/main.js"></script>
+    <script src="~/clientside/js/sweetalert.min.js"></script>
+
+    @RenderSection("FormScripts", false)
+    @RenderSection("PiChart", false)
+    @RenderSection("SweetAlert", false)
+</body>
+
+</html>

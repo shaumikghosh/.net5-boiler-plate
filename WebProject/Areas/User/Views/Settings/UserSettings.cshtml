@@ -1,0 +1,335 @@
+﻿@model ChangePassword
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<ApplicationUser> UserManager;
+
+@{
+    ViewData["Title"] = "User Settings";
+    Layout = "~/Views/Shared/_WebLayout.cshtml";
+
+    var user = await UserManager.GetUserAsync(User);
+
+    if (user.EmailConfirmed != true)
+    {
+        ViewContext.HttpContext.Response.Redirect("/user/profile");
+    }
+
+    var path = ViewContext.HttpContext.Request.Path;
+
+    var profile = "";
+    var change_email = "";
+    var change_password = "";
+    var deactivate_user = "";
+
+    if (path == "/user/settings")
+    {
+        profile = "active";
+    }
+    else if (path == "/user/change-email")
+    {
+        change_email = "active";
+    }
+    else if (path == "/user/deactivation")
+    {
+        deactivate_user = "active";
+    }
+    else
+    {
+        change_password = "active";
+    }
+}
+
+<style>
+    .custom-col-2-img {
+        background-image: url("https://images.unsplash.com/photo-1568301956237-25a54f5f0d21?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTN8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 60px 50px;
+        color: white;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custom-card {
+        width: 900px !important;
+        margin: auto;
+    }
+
+    .poll-item {
+        border-bottom: 1px solid #e6e6e6;
+        padding-bottom: 15px;
+        padding-top: 15px
+    }
+
+        .poll-item:last-child {
+            border-bottom: none;
+        }
+</style>
+
+<section id="about">
+    <div class="container">
+        <div class="card custom-card">
+            <div class="custom-card-haeader card-outline" style="border-top:3px solid;display:flex;justify-content:space-between">
+                <h2 class="pt-3 font-weight-bold pl-3 d-block"><i class="fas fa-cogs"></i> Settings</h2>
+                <div class="pt-3 mr-3">
+                    <a class="btn btn-dark btn-sm" href="@Url.ActionLink("Profile", "Profile", new { area="User"})"><i class="fas fa-arrow-left"></i> Go to Profile</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-start">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="padding-right:10px; border-right: 1px solid;">
+                        <a class="nav-link @(profile)" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" href="@Url.ActionLink("UserSettings", "Settings", new { area = "User" })" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-user-edit"></i> User Profile</a>
+
+                        <a class="nav-link @(change_email)" href="@Url.ActionLink("ChangeEmail", "Settings", new { area = "User" })" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fas fa-at"></i> Change Email</a>
+
+                        <a class="nav-link @(change_password)" href="@Url.ActionLink("ChangePassword", "Settings", new { area = "User" })" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false"><i class="fas fa-unlock-alt"></i> Change Password</a>
+
+                        <a class="nav-link @(deactivate_user)" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" href="@Url.ActionLink("DeactivateUser", "Settings", new { area = "User" })" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fas fa-door-closed"></i> Deactivate Account</a>
+                    </div>
+                    <div class="tab-content col-8" id="v-pills-tabContent" style="padding-left:10px; margin:auto">
+                        <div class="tab-pane fade @(profile != "" ? "show active" : "")" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <h4 class="font-weight-bold">Update Profile</h4>
+                            @using (Html.BeginForm("UserSettings", "Settings", new { area = "User" }, FormMethod.Post, null, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="form-group" style="display:flex;justify-content:center;align-items:center">
+                                    @if (ViewBag.ProfileImage == null)
+                                    {
+                                        <img src="" alt="" width="170" height="170" style="border-radius:100%;display:none" id="SelectedImageDisplay" />
+                                        <img src="~/clientside/img/demo-user.png" alt="" width="170" height="170" style="border-radius:100%" id="ImageDisplay" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/clientside/img/profile/" alt="" width="170" height="170" style="border-radius:100%;display:none" id="SelectedImageDisplay" />
+                                        <img src="~/clientside/img/profile/@ViewBag.ProfileImage" alt="" id="ImageDisplay" width="170" height="170" style="border-radius:100%" />
+                                    }
+
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" name="ProfileImage" alt="" id="ChangeProfileImage" hidden accept="image/png, image/jpeg" />
+                                    <span style="cursor:pointer;color:blue; font-weight:bold;display:block;text-align:center;" id="OnClickChangeImage" class="mb-5">Set Profile Image</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <i class="fas fa-file-signature"></i> <label class="form-label" for="FirstName">First Name</label>
+                                        <input class="form-control" name="FirstName" type="text" value="@ViewBag.FirstName">
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <i class="fas fa-file-signature"></i> <label class="form-label" for="LastName">Last Name</label>
+                                        <input class="form-control" name="LastName" type="text" value="@ViewBag.LastName">
+                                        <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label><i class="fas fa-i-cursor"></i> Username</label>
+                                    <input type="text" class="form-control" name="UserName" value="@ViewBag.UserName">
+                                </div>
+                                <div class="form-group">
+                                    <i class="fas fa-globe-africa"></i> <label>Website</label>
+                                    <input type="text" class="form-control" name="Website" value="@ViewBag.Website">
+                                </div>
+                                <div class="form-group">
+                                    <i class="fas fa-info-circle"></i> <label>Bio</label>
+                                    <textarea type="text" class="form-control" name="BioData">@ViewBag.BioData</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-info"><i class="far fa-hand-point-right"></i> Update</button>
+                            }
+                        </div>
+
+                        <div class="tab-pane fade @(change_email != "" ? "show active" : "")" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <h4 class="font-weight-bold">Change Email</h4>
+                            @using (Html.BeginForm("ChangeEmail", "Settings", new { area = "User" }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div>
+                                    <i class="fas fa-envelope"></i> <label class="form-label" for="Email">Email</label>
+                                    <input class="form-control" id="Email" maxlength="40" name="Email" type="text" value="@ViewBag.Email">
+                                </div>
+                                <button type="submit" class="btn btn-info mt-3"><i class="fas fa-hands-helping"></i> Submit</button>
+                            }
+                        </div>
+
+                        <div class="tab-pane fade @(change_password != "" ? "show active" : "")" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            <h4 class="font-weight-bold">Change Password</h4>
+                            @using (Html.BeginForm("ChangePassword", "Settings", new { area = "User" }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()<div class="card-body">
+                                    <div class="form-group">
+                                        <i class="fas fa-key"></i> <label for="CurrentPassword">Current Password</label>
+                                        <input type="password" name="CurrentPassword" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <i class="fas fa-lock"></i> <label for="NewPassword">Password</label>
+                                        <input type="password" name="NewPassword" class="form-control" />
+                                    </div>
+                                    <div class="form-group">
+                                        <i class="fas fa-lock"></i> <label for="ConfirmPassword">Confirm Password</label>
+                                        <input type="password" name="ConfirmPassword" class="form-control" />
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn btn-info"><i class="far fa-hand-point-right"></i> Submit</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane fade @(deactivate_user != "" ? "show active" : "")" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                            <h4 class="font-weight-bold">
+                                <i class="fas fa-skull-crossbones"></i> Deactiavate Your Account
+                            </h4>
+                            <article>Please note:- One you deactivate your account then you wont be able to login to this account. In that case you have to contact to support to reactivae your account. And it may take time to reactive your account. Thanks.</article>
+
+                            <a class="btn btn-danger btn-block mt-3" href="/user/deactive/@user.Id"> <i class="fas fa-skull-crossbones"></i> I have read the note above then deactivating my account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section SweetAlert {
+
+    @if (TempData["ChangePasswordSucceded"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["ChangePasswordSucceded"]",
+                icon: "success",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["CurrentPasswordError"] != null)
+    {
+        <script>
+            swal({
+                title: "Status!",
+                text: "@TempData["CurrentPasswordError"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["AllFieldRequired_1"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["AllFieldRequired_1"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["PasswordVerificationError"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["PasswordVerificationError"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["CurrentPasswordEmpty"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["CurrentPasswordEmpty"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["NewPasswordError"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["NewPasswordError"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["EmailFieldNull"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["EmailFieldNull"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["EmailExistError"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["EmailExistError"]",
+                icon: "error",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["ChangeEmailSuccess"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["ChangeEmailSuccess"]",
+                icon: "success",
+                button: "Ok!",
+            });
+        </script>
+    }
+
+    @if (TempData["InfoUpdatedSuccess"] != null)
+    {
+        <script>
+            swal({
+                title: "System Messages!",
+                text: "@TempData["InfoUpdatedSuccess"]",
+                icon: "success",
+                button: "Ok!",
+            });
+        </script>
+    }
+}
+
+@section FormScripts {
+    <script>
+        $(document).ready(function () {
+            $("#OnClickChangeImage").click(function () {
+                $("#ChangeProfileImage").click();
+            });
+            var image = $("#ChangeProfileImage");
+            image.on("change", function () {
+
+                $("#SelectedImageDisplay").css("display", "");
+                $("#ImageDisplay").css("display", "none");
+
+                var reader = new FileReader();
+                reader.readAsDataURL(document.getElementById("ChangeProfileImage").files[0]);
+
+                reader.onload = function (e) {
+                    document.getElementById("SelectedImageDisplay").src = e.target.result;
+                };
+            });
+        });
+    </script>
+}
